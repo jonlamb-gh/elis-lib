@@ -20,18 +20,25 @@ impl BillableItem {
         }
     }
 
-    pub fn cost(&self) -> SmallMoney {
-        let fob_price = self.lumber_type.fob_price();
+    pub fn lumber_type(&self) -> &LumberType {
+        &self.lumber_type
+    }
 
-        (fob_price * self.board_dimensions.board_feet()) * (self.quantity as f64)
+    pub fn description(&self) -> &str {
+        &self.description
+    }
+
+    pub fn board_dimensions(&self) -> &BoardDimensions {
+        &self.board_dimensions
     }
 
     pub fn quantity(&self) -> usize {
         self.quantity
     }
 
-    // TODO - where to enforce > 0?
-    pub fn set_quantity(&mut self, quantity: usize) {
-        self.quantity = quantity;
+    pub fn cost(&self) -> SmallMoney {
+        let fob_price = self.lumber_type.fob_price();
+
+        (fob_price * self.board_dimensions.board_feet()) * (self.quantity as f64)
     }
 }
