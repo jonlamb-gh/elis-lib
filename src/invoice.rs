@@ -4,6 +4,7 @@ use dim::ucum;
 use steel_cent::currency::USD;
 use steel_cent::SmallMoney;
 
+// TODO - move to file?
 #[derive(Clone, PartialEq, Debug)]
 pub struct OrderInfo {
     // TODO - customer lookup/db
@@ -18,14 +19,37 @@ pub struct OrderInfo {
     // TODO - Site, also populates Site Info page
 }
 
-#[derive(Clone, Debug)]
-pub struct Invoice {
-    order_info: OrderInfo,
-    items: Vec<BillableItem>,
-    estimated_shipping_cost: SmallMoney,
+impl OrderInfo {
+    pub fn customer(&self) -> &str {
+        &self.customer
+    }
+
+    pub fn confirms_with(&self) -> &str {
+        &self.confirms_with
+    }
+
+    pub fn order_date(&self) -> &DateTime<Utc> {
+        &self.order_date
+    }
+
+    pub fn shipment_date(&self) -> &DateTime<Utc> {
+        &self.shipment_date
+    }
+
+    pub fn order_number(&self) -> u32 {
+        self.order_number
+    }
+
+    pub fn weight_estimate(&self) -> &ucum::Gram<f64> {
+        &self.weight_estimate
+    }
+
+    pub fn will_call(&self) -> bool {
+        self.will_call
+    }
 }
 
-// TODO - InvoiceSummary?
+// TODO - InvoiceSummary?, move to file?
 #[derive(Clone, PartialEq, Debug)]
 pub struct Summary {
     total_pieces: usize,
@@ -55,6 +79,13 @@ impl Summary {
     pub fn total_cost(&self) -> &SmallMoney {
         &self.total_cost
     }
+}
+
+#[derive(Clone, Debug)]
+pub struct Invoice {
+    order_info: OrderInfo,
+    items: Vec<BillableItem>,
+    estimated_shipping_cost: SmallMoney,
 }
 
 impl Invoice {
