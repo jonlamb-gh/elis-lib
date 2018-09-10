@@ -24,6 +24,7 @@ pub struct Invoice {
     estimated_shipping_cost: SmallMoney,
 }
 
+// TODO - InvoiceSummary?
 #[derive(Clone, PartialEq, Debug)]
 pub struct Summary {
     total_pieces: usize,
@@ -31,6 +32,28 @@ pub struct Summary {
     sub_total_cost: SmallMoney,
     sales_tax_cost: SmallMoney,
     total_cost: SmallMoney,
+}
+
+impl Summary {
+    pub fn total_pieces(&self) -> usize {
+        self.total_pieces
+    }
+
+    pub fn estimated_shipping_cost(&self) -> &SmallMoney {
+        &self.estimated_shipping_cost
+    }
+
+    pub fn sub_total_cost(&self) -> &SmallMoney {
+        &self.sub_total_cost
+    }
+
+    pub fn sales_tax_cost(&self) -> &SmallMoney {
+        &self.sales_tax_cost
+    }
+
+    pub fn total_cost(&self) -> &SmallMoney {
+        &self.total_cost
+    }
 }
 
 impl Invoice {
