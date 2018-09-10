@@ -15,6 +15,7 @@ pub struct OrderInfo {
     order_number: u32,
     weight_estimate: ucum::Gram<f64>,
     will_call: bool,
+    // TODO - Site, also populates Site Info page
 }
 
 #[derive(Clone, Debug)]
@@ -86,6 +87,10 @@ impl Invoice {
 
     pub fn remove_billable_item(&mut self, item_index: usize) {
         self.items.remove(item_index);
+    }
+
+    pub fn remove_billable_items(&mut self) {
+        self.items.clear();
     }
 
     pub fn get_mut_billable_item(&mut self, item_index: usize) -> &mut BillableItem {
