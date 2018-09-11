@@ -1,5 +1,6 @@
 // TODO - toml lookup instead?
 // - use scientific/botanical names?
+// - add some form of weight/mass for estimating
 
 use steel_cent::currency::USD;
 use steel_cent::SmallMoney;
