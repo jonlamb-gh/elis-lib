@@ -1,6 +1,6 @@
 use board_dimensions::BoardDimensions;
 use lumber_types::LumberType;
-use steel_cent::SmallMoney;
+use steel_cent::Money;
 
 #[derive(Clone, Debug)]
 pub struct BillableItem {
@@ -36,7 +36,7 @@ impl BillableItem {
         self.quantity
     }
 
-    pub fn cost(&self) -> SmallMoney {
+    pub fn cost(&self) -> Money {
         let fob_price = self.lumber_type.fob_price();
 
         (fob_price * self.board_dimensions.board_feet()) * (self.quantity as f64)

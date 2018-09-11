@@ -2,13 +2,13 @@ use super::InvoiceSummary;
 use super::OrderInfo;
 use billable_item::BillableItem;
 use steel_cent::currency::USD;
-use steel_cent::SmallMoney;
+use steel_cent::Money;
 
 #[derive(Clone, Debug)]
 pub struct Invoice {
     order_info: OrderInfo,
     items: Vec<BillableItem>,
-    estimated_shipping_cost: SmallMoney,
+    estimated_shipping_cost: Money,
 }
 
 impl Invoice {
@@ -16,7 +16,7 @@ impl Invoice {
         Self {
             order_info: OrderInfo::default(),
             items: Vec::<BillableItem>::new(),
-            estimated_shipping_cost: SmallMoney::zero(USD),
+            estimated_shipping_cost: Money::zero(USD),
         }
     }
 
@@ -64,8 +64,8 @@ impl Invoice {
         sum
     }
 
-    pub fn sub_total_cost(&self) -> SmallMoney {
-        let mut sum = SmallMoney::zero(USD);
+    pub fn sub_total_cost(&self) -> Money {
+        let mut sum = Money::zero(USD);
 
         for i in &self.items {
             sum = sum + i.cost();
@@ -77,11 +77,11 @@ impl Invoice {
     }
 
     // TODO - sales tax provider, hard-coded to 8.8%
-    pub fn sales_tax_cost(&self) -> SmallMoney {
+    pub fn sales_tax_cost(&self) -> Money {
         self.sub_total_cost() * 0.088
     }
 
-    pub fn total_cost(&self) -> SmallMoney {
+    pub fn total_cost(&self) -> Money {
         self.sub_total_cost() + self.sales_tax_cost()
     }
 }

@@ -1,23 +1,23 @@
 use steel_cent::currency::USD;
-use steel_cent::SmallMoney;
+use steel_cent::Money;
 
 #[derive(Clone, PartialEq, Debug)]
 pub struct InvoiceSummary {
     total_pieces: usize,
-    estimated_shipping_cost: SmallMoney,
-    sub_total_cost: SmallMoney,
-    sales_tax_cost: SmallMoney,
-    total_cost: SmallMoney,
+    estimated_shipping_cost: Money,
+    sub_total_cost: Money,
+    sales_tax_cost: Money,
+    total_cost: Money,
 }
 
 impl Default for InvoiceSummary {
     fn default() -> Self {
         InvoiceSummary {
             total_pieces: 0,
-            estimated_shipping_cost: SmallMoney::zero(USD),
-            sub_total_cost: SmallMoney::zero(USD),
-            sales_tax_cost: SmallMoney::zero(USD),
-            total_cost: SmallMoney::zero(USD),
+            estimated_shipping_cost: Money::zero(USD),
+            sub_total_cost: Money::zero(USD),
+            sales_tax_cost: Money::zero(USD),
+            total_cost: Money::zero(USD),
         }
     }
 }
@@ -25,10 +25,10 @@ impl Default for InvoiceSummary {
 impl InvoiceSummary {
     pub fn new(
         total_pieces: usize,
-        estimated_shipping_cost: SmallMoney,
-        sub_total_cost: SmallMoney,
-        sales_tax_cost: SmallMoney,
-        total_cost: SmallMoney,
+        estimated_shipping_cost: Money,
+        sub_total_cost: Money,
+        sales_tax_cost: Money,
+        total_cost: Money,
     ) -> Self {
         InvoiceSummary {
             total_pieces,
@@ -43,19 +43,19 @@ impl InvoiceSummary {
         self.total_pieces
     }
 
-    pub fn estimated_shipping_cost(&self) -> &SmallMoney {
+    pub fn estimated_shipping_cost(&self) -> &Money {
         &self.estimated_shipping_cost
     }
 
-    pub fn sub_total_cost(&self) -> &SmallMoney {
+    pub fn sub_total_cost(&self) -> &Money {
         &self.sub_total_cost
     }
 
-    pub fn sales_tax_cost(&self) -> &SmallMoney {
+    pub fn sales_tax_cost(&self) -> &Money {
         &self.sales_tax_cost
     }
 
-    pub fn total_cost(&self) -> &SmallMoney {
+    pub fn total_cost(&self) -> &Money {
         &self.total_cost
     }
 }

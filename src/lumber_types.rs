@@ -3,7 +3,7 @@
 // - add some form of weight/mass for estimating
 
 use steel_cent::currency::USD;
-use steel_cent::SmallMoney;
+use steel_cent::Money;
 
 #[derive(Clone, Debug, PartialEq)]
 pub enum LumberType {
@@ -24,10 +24,10 @@ impl LumberType {
         }
     }
 
-    pub fn fob_price(&self) -> SmallMoney {
+    pub fn fob_price(&self) -> Money {
         match self {
-            LumberType::DouglasFir => SmallMoney::of_major_minor(USD, 2, 60),
-            LumberType::RedPine => SmallMoney::of_major_minor(USD, 1, 13),
+            LumberType::DouglasFir => Money::of_major_minor(USD, 2, 60),
+            LumberType::RedPine => Money::of_major_minor(USD, 1, 13),
         }
     }
 }
