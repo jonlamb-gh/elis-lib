@@ -1,85 +1,8 @@
+use super::InvoiceSummary;
+use super::OrderInfo;
 use billable_item::BillableItem;
-use chrono::prelude::*;
-use dim::ucum;
 use steel_cent::currency::USD;
 use steel_cent::SmallMoney;
-
-// TODO - move to file?
-#[derive(Clone, PartialEq, Debug)]
-pub struct OrderInfo {
-    // TODO - customer lookup/db
-    customer: String,
-    confirms_with: String,
-    order_date: DateTime<Utc>,
-    shipment_date: DateTime<Utc>,
-    // TODO - proper type
-    order_number: u32,
-    weight_estimate: ucum::Gram<f64>,
-    will_call: bool,
-    // TODO - Site, also populates Site Info page
-}
-
-impl OrderInfo {
-    pub fn customer(&self) -> &str {
-        &self.customer
-    }
-
-    pub fn confirms_with(&self) -> &str {
-        &self.confirms_with
-    }
-
-    pub fn order_date(&self) -> &DateTime<Utc> {
-        &self.order_date
-    }
-
-    pub fn shipment_date(&self) -> &DateTime<Utc> {
-        &self.shipment_date
-    }
-
-    pub fn order_number(&self) -> u32 {
-        self.order_number
-    }
-
-    pub fn weight_estimate(&self) -> &ucum::Gram<f64> {
-        &self.weight_estimate
-    }
-
-    pub fn will_call(&self) -> bool {
-        self.will_call
-    }
-}
-
-// TODO - InvoiceSummary?, move to file?
-#[derive(Clone, PartialEq, Debug)]
-pub struct Summary {
-    total_pieces: usize,
-    estimated_shipping_cost: SmallMoney,
-    sub_total_cost: SmallMoney,
-    sales_tax_cost: SmallMoney,
-    total_cost: SmallMoney,
-}
-
-impl Summary {
-    pub fn total_pieces(&self) -> usize {
-        self.total_pieces
-    }
-
-    pub fn estimated_shipping_cost(&self) -> &SmallMoney {
-        &self.estimated_shipping_cost
-    }
-
-    pub fn sub_total_cost(&self) -> &SmallMoney {
-        &self.sub_total_cost
-    }
-
-    pub fn sales_tax_cost(&self) -> &SmallMoney {
-        &self.sales_tax_cost
-    }
-
-    pub fn total_cost(&self) -> &SmallMoney {
-        &self.total_cost
-    }
-}
 
 #[derive(Clone, Debug)]
 pub struct Invoice {
@@ -93,7 +16,6 @@ impl Invoice {
         Self {
             order_info: OrderInfo::default(),
             items: Vec::<BillableItem>::new(),
-            // TODO
             estimated_shipping_cost: SmallMoney::zero(USD),
         }
     }
@@ -102,14 +24,14 @@ impl Invoice {
         &self.order_info
     }
 
-    pub fn summary(&self) -> Summary {
-        Summary {
-            total_pieces: self.total_pieces(),
-            estimated_shipping_cost: self.estimated_shipping_cost,
-            sub_total_cost: self.sub_total_cost(),
-            sales_tax_cost: self.sales_tax_cost(),
-            total_cost: self.total_cost(),
-        }
+    pub fn summary(&self) -> InvoiceSummary {
+        InvoiceSummary::new(
+            self.total_pieces(),
+            self.estimated_shipping_cost,
+            self.sub_total_cost(),
+            self.sales_tax_cost(),
+            self.total_cost(),
+        )
     }
 
     pub fn add_billable_item(&mut self, item: BillableItem) {
@@ -161,32 +83,5 @@ impl Invoice {
 
     pub fn total_cost(&self) -> SmallMoney {
         self.sub_total_cost() + self.sales_tax_cost()
-    }
-}
-
-impl Default for OrderInfo {
-    fn default() -> Self {
-        OrderInfo {
-            customer: String::from("NEW CUSTOMER"),
-            confirms_with: String::new(),
-            order_date: Utc::now(),
-            shipment_date: Utc::now(),
-            // TODO - proper type
-            order_number: 1,
-            weight_estimate: ucum::Gram::new(0.0),
-            will_call: false,
-        }
-    }
-}
-
-impl Default for Summary {
-    fn default() -> Self {
-        Summary {
-            total_pieces: 0,
-            estimated_shipping_cost: SmallMoney::zero(USD),
-            sub_total_cost: SmallMoney::zero(USD),
-            sales_tax_cost: SmallMoney::zero(USD),
-            total_cost: SmallMoney::zero(USD),
-        }
     }
 }
