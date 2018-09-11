@@ -1,5 +1,8 @@
 extern crate chrono;
 extern crate dimensioned as dim;
+#[macro_use]
+extern crate serde_derive;
+extern crate serde;
 pub extern crate steel_cent;
 
 pub use dim::ucum;
@@ -9,6 +12,7 @@ mod board_dimensions;
 mod invoice;
 mod invoice_summary;
 mod lumber_types;
+mod money_serde;
 mod order_info;
 mod site_info;
 

@@ -1,8 +1,7 @@
 use chrono::prelude::*;
 use dim::ucum;
 
-// TODO - move to file?
-#[derive(Clone, PartialEq, Debug)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct OrderInfo {
     // TODO - customer lookup/db
     customer: String,

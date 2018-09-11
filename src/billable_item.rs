@@ -2,7 +2,7 @@ use board_dimensions::BoardDimensions;
 use lumber_types::LumberType;
 use steel_cent::Money;
 
-#[derive(Clone, Debug)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct BillableItem {
     lumber_type: LumberType,
     description: String,

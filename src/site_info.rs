@@ -1,7 +1,7 @@
 // TODO - proper types for address, numbers, etc
 // docs on new vs default, is default needed?
 
-#[derive(Clone, Debug)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct SiteInfo {
     site_name: String,
     address: String,

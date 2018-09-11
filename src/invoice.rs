@@ -1,13 +1,16 @@
 use super::InvoiceSummary;
 use super::OrderInfo;
+use money_serde::MoneyDef;
+
 use billable_item::BillableItem;
 use steel_cent::currency::USD;
 use steel_cent::Money;
 
-#[derive(Clone, Debug)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Invoice {
     order_info: OrderInfo,
     items: Vec<BillableItem>,
+    #[serde(with = "MoneyDef")]
     estimated_shipping_cost: Money,
 }
 

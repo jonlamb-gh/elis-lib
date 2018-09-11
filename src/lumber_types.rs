@@ -5,7 +5,7 @@
 use steel_cent::currency::USD;
 use steel_cent::Money;
 
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
 pub enum LumberType {
     DouglasFir,
     RedPine,

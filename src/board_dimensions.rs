@@ -5,7 +5,7 @@
 use dim::{ucum, Dimensionless};
 use std::fmt::{self, Display, Formatter};
 
-#[derive(Clone, Debug)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct BoardDimensions {
     length: ucum::Meter<f64>,
     width: ucum::Meter<f64>,

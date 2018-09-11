@@ -1,12 +1,18 @@
 use steel_cent::currency::USD;
 use steel_cent::Money;
 
-#[derive(Clone, PartialEq, Debug)]
+use money_serde::MoneyDef;
+
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct InvoiceSummary {
     total_pieces: usize,
+    #[serde(with = "MoneyDef")]
     estimated_shipping_cost: Money,
+    #[serde(with = "MoneyDef")]
     sub_total_cost: Money,
+    #[serde(with = "MoneyDef")]
     sales_tax_cost: Money,
+    #[serde(with = "MoneyDef")]
     total_cost: Money,
 }
 

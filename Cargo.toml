@@ -5,5 +5,7 @@ authors = ["jonlamb-gh <lamb.jon.io@gmail.com>"]
 
 [dependencies]
 chrono = { version = "0.4.6", features = ["serde"] }
-dimensioned = "0.7.0"
+dimensioned = { version = "0.7.0", features = ["std", "serde"] }
 steel-cent = "0.2.2"
+serde = "1.0.0"
+serde_derive = "1.0.0"
