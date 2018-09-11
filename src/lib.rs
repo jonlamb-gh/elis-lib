@@ -1,6 +1,6 @@
 extern crate chrono;
 extern crate dimensioned as dim;
-extern crate steel_cent;
+pub extern crate steel_cent;
 
 pub use dim::ucum;
 

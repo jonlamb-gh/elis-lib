@@ -1,4 +1,5 @@
 // TODO - toml lookup instead?
+// - use scientific/botanical names?
 
 use steel_cent::currency::USD;
 use steel_cent::SmallMoney;
@@ -10,6 +11,11 @@ pub enum LumberType {
 }
 
 impl LumberType {
+    // TODO - this doesn't scale very well
+    pub fn enumerate() -> &'static [LumberType] {
+        &[LumberType::DouglasFir, LumberType::RedPine]
+    }
+
     pub fn to_str(&self) -> &'static str {
         match self {
             LumberType::DouglasFir => "Douglas Fir",
