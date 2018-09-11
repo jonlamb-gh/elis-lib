@@ -20,6 +20,7 @@ impl Default for InvoiceSummary {
     fn default() -> Self {
         InvoiceSummary {
             total_pieces: 0,
+            // TODO shipping and total weight
             estimated_shipping_cost: Money::zero(USD),
             sub_total_cost: Money::zero(USD),
             sales_tax_cost: Money::zero(USD),

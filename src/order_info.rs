@@ -1,3 +1,5 @@
+use super::OrderNumber;
+
 use chrono::prelude::*;
 use dim::ucum;
 
@@ -8,8 +10,7 @@ pub struct OrderInfo {
     confirms_with: String,
     order_date: DateTime<Utc>,
     shipment_date: DateTime<Utc>,
-    // TODO - proper type
-    order_number: u32,
+    order_number: OrderNumber,
     weight_estimate: ucum::Gram<f64>,
     will_call: bool,
     // TODO - Site, also populates Site Info page
@@ -22,8 +23,7 @@ impl Default for OrderInfo {
             confirms_with: String::new(),
             order_date: Utc::now(),
             shipment_date: Utc::now(),
-            // TODO - proper type
-            order_number: 1,
+            order_number: 0,
             weight_estimate: ucum::Gram::new(0.0),
             will_call: false,
         }
@@ -47,7 +47,7 @@ impl OrderInfo {
         &self.shipment_date
     }
 
-    pub fn order_number(&self) -> u32 {
+    pub fn order_number(&self) -> OrderNumber {
         self.order_number
     }
 
