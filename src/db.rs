@@ -18,7 +18,7 @@ pub type Database = FileDatabase<DatabaseData, Bincode>;
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct DatabaseData {
-    invoices: HashMap<OrderNumber, Invoice>,
+    pub invoices: HashMap<OrderNumber, Invoice>,
 }
 
 impl DatabaseData {
