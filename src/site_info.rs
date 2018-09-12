@@ -1,5 +1,4 @@
 // TODO - proper types for address, numbers, etc
-// docs on new vs default, is default needed?
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct SiteInfo {
@@ -8,18 +7,6 @@ pub struct SiteInfo {
     phone_number: String,
     fax_number: String,
     sales_tax: f64,
-}
-
-impl Default for SiteInfo {
-    fn default() -> Self {
-        SiteInfo {
-            site_name: String::from("Default Site"),
-            address: String::from("NA"),
-            phone_number: String::from("NA"),
-            fax_number: String::from("NA"),
-            sales_tax: 0.0,
-        }
-    }
 }
 
 impl SiteInfo {

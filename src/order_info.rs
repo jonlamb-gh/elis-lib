@@ -5,46 +5,32 @@ use dim::ucum;
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct OrderInfo {
-    // TODO - customer lookup/db
-    customer: String,
+    customer_name: String,
     confirms_with: String,
     order_date: DateTime<Utc>,
     shipment_date: DateTime<Utc>,
     order_number: OrderNumber,
     weight_estimate: ucum::Gram<f64>,
+    site_name: String,
     will_call: bool,
-    // TODO - Site, also populates Site Info page
-}
-
-impl Default for OrderInfo {
-    fn default() -> Self {
-        OrderInfo {
-            customer: String::from("NEW CUSTOMER"),
-            confirms_with: String::new(),
-            order_date: Utc::now(),
-            shipment_date: Utc::now(),
-            order_number: 0,
-            weight_estimate: ucum::Gram::new(0.0),
-            will_call: false,
-        }
-    }
 }
 
 impl OrderInfo {
     pub fn new(order_number: OrderNumber) -> Self {
         Self {
-            customer: String::from("NEW CUSTOMER"),
+            customer_name: String::from("SELECT CUSTOMER"),
             confirms_with: String::new(),
             order_date: Utc::now(),
             shipment_date: Utc::now(),
-            order_number,
+            order_number: order_number,
             weight_estimate: ucum::Gram::new(0.0),
+            site_name: String::from("SELECT SITE"),
             will_call: false,
         }
     }
 
-    pub fn customer(&self) -> &str {
-        &self.customer
+    pub fn customer_name(&self) -> &str {
+        &self.customer_name
     }
 
     pub fn confirms_with(&self) -> &str {
@@ -63,12 +49,12 @@ impl OrderInfo {
         self.order_number
     }
 
-    pub fn set_order_number(&mut self, order_number: OrderNumber) {
-        self.order_number = order_number;
-    }
-
     pub fn weight_estimate(&self) -> &ucum::Gram<f64> {
         &self.weight_estimate
+    }
+
+    pub fn site_name(&self) -> &str {
+        &self.site_name
     }
 
     pub fn will_call(&self) -> bool {

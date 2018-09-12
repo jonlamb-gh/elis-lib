@@ -1,10 +1,12 @@
 use board_dimensions::BoardDimensions;
-use lumber_types::LumberType;
+use lumber::{FobCostReader, LumberType, Props};
+
 use steel_cent::Money;
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct BillableItem {
     lumber_type: LumberType,
+    lumber_props: Props,
     description: String,
     board_dimensions: BoardDimensions,
     quantity: usize,
@@ -13,7 +15,8 @@ pub struct BillableItem {
 impl BillableItem {
     pub fn new() -> Self {
         Self {
-            lumber_type: LumberType::DouglasFir,
+            lumber_type: LumberType::new(),
+            lumber_props: Props::default(),
             description: String::from("PIECE DESCRIPTION"),
             board_dimensions: BoardDimensions::new(),
             quantity: 1,
@@ -36,9 +39,9 @@ impl BillableItem {
         self.quantity
     }
 
-    pub fn cost(&self) -> Money {
-        let fob_price = self.lumber_type.fob_price();
+    pub fn cost<T: FobCostReader>(&self, fob_reader: &T) -> Money {
+        let fob_cost = fob_reader.fob_cost(&self.lumber_type);
 
-        (fob_price * self.board_dimensions.board_feet()) * (self.quantity as f64)
+        (fob_cost * self.board_dimensions.board_feet()) * (self.quantity as f64)
     }
 }
