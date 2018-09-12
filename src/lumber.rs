@@ -3,6 +3,7 @@
 
 use money_serde::MoneyDef;
 
+use steel_cent::currency::USD;
 use steel_cent::Money;
 
 pub trait FobCostReader {
@@ -52,5 +53,22 @@ impl Default for Props {
             grade: Grade::I,
             spec: Specification::FOHC,
         }
+    }
+}
+
+impl Lumber {
+    pub fn new() -> Self {
+        Self {
+            type_name: String::from("NAME"),
+            fob_cost: Money::zero(USD),
+        }
+    }
+
+    pub fn type_name(&self) -> &str {
+        &self.type_name
+    }
+
+    pub fn fob_cost(&self) -> &Money {
+        &self.fob_cost
     }
 }
