@@ -27,6 +27,10 @@ impl BillableItem {
         &self.lumber_type
     }
 
+    pub fn lumber_props(&self) -> &Props {
+        &self.lumber_props
+    }
+
     pub fn description(&self) -> &str {
         &self.description
     }
