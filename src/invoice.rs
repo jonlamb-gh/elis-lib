@@ -14,9 +14,9 @@ pub struct Invoice {
 }
 
 impl Invoice {
-    pub fn new() -> Self {
+    pub fn new(order_number: OrderNumber) -> Self {
         Self {
-            order_info: OrderInfo::default(),
+            order_info: OrderInfo::new(order_number),
             items: Vec::<BillableItem>::new(),
             estimated_shipping_cost: Money::zero(USD),
         }
@@ -85,15 +85,5 @@ impl Invoice {
 
     pub fn total_cost(&self) -> Money {
         self.sub_total_cost() + self.sales_tax_cost()
-    }
-}
-
-impl From<OrderNumber> for Invoice {
-    fn from(order_number: OrderNumber) -> Invoice {
-        Invoice {
-            order_info: OrderInfo::new(order_number),
-            items: Vec::<BillableItem>::new(),
-            estimated_shipping_cost: Money::zero(USD),
-        }
     }
 }
