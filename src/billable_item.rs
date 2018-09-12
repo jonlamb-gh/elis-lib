@@ -13,9 +13,9 @@ pub struct BillableItem {
 }
 
 impl BillableItem {
-    pub fn new() -> Self {
+    pub fn new(lumber_type: LumberType) -> Self {
         Self {
-            lumber_type: LumberType::new(),
+            lumber_type,
             lumber_props: Props::default(),
             description: String::from("PIECE DESCRIPTION"),
             board_dimensions: BoardDimensions::new(),
