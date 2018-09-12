@@ -31,6 +31,18 @@ impl Default for OrderInfo {
 }
 
 impl OrderInfo {
+    pub fn new(order_number: OrderNumber) -> Self {
+        Self {
+            customer: String::from("NEW CUSTOMER"),
+            confirms_with: String::new(),
+            order_date: Utc::now(),
+            shipment_date: Utc::now(),
+            order_number,
+            weight_estimate: ucum::Gram::new(0.0),
+            will_call: false,
+        }
+    }
+
     pub fn customer(&self) -> &str {
         &self.customer
     }

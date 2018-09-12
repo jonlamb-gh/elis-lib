@@ -21,7 +21,7 @@ mod site_info;
 
 pub use self::billable_item::BillableItem;
 pub use self::board_dimensions::BoardDimensions;
-pub use self::db::{Database, DatabaseData, from_path};
+pub use self::db::{from_path, Database, DatabaseData};
 pub use self::invoice::Invoice;
 pub use self::invoice_summary::InvoiceSummary;
 pub use self::lumber_types::LumberType;

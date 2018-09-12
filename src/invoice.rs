@@ -1,5 +1,4 @@
-use super::InvoiceSummary;
-use super::OrderInfo;
+use super::{InvoiceSummary, OrderInfo, OrderNumber};
 use money_serde::MoneyDef;
 
 use billable_item::BillableItem;
@@ -86,5 +85,15 @@ impl Invoice {
 
     pub fn total_cost(&self) -> Money {
         self.sub_total_cost() + self.sales_tax_cost()
+    }
+}
+
+impl From<OrderNumber> for Invoice {
+    fn from(order_number: OrderNumber) -> Invoice {
+        Invoice {
+            order_info: OrderInfo::new(order_number),
+            items: Vec::<BillableItem>::new(),
+            estimated_shipping_cost: Money::zero(USD),
+        }
     }
 }
