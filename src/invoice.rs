@@ -25,6 +25,10 @@ impl Invoice {
     pub fn order_info(&self) -> &OrderInfo {
         &self.order_info
     }
+    
+    pub fn mut_order_info(&mut self) -> &mut OrderInfo {
+        &mut self.order_info
+    }
 
     pub fn summary(&self) -> InvoiceSummary {
         InvoiceSummary::new(
@@ -48,6 +52,7 @@ impl Invoice {
         self.items.clear();
     }
 
+    // TODO - use a consistent naming convention
     pub fn get_mut_billable_item(&mut self, item_index: usize) -> &mut BillableItem {
         &mut self.items[item_index]
     }

@@ -63,6 +63,10 @@ impl OrderInfo {
         self.order_number
     }
 
+    pub fn set_order_number(&mut self, order_number: OrderNumber) {
+        self.order_number = order_number;
+    }
+
     pub fn weight_estimate(&self) -> &ucum::Gram<f64> {
         &self.weight_estimate
     }
