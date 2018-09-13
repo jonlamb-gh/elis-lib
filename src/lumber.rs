@@ -32,6 +32,15 @@ pub enum DryingMethod {
     AirDried,
 }
 
+impl DryingMethod {
+    pub fn to_str(&self) -> &str {
+        match self {
+            DryingMethod::KilnDried => "KilnDried",
+            DryingMethod::AirDried => "AirDried",
+        }
+    }
+}
+
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
 pub enum Grade {
     I,
@@ -39,10 +48,29 @@ pub enum Grade {
     III,
 }
 
+impl Grade {
+    pub fn to_str(&self) -> &str {
+        match self {
+            Grade::I => "I",
+            Grade::II => "II",
+            Grade::III => "III",
+        }
+    }
+}
+
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
 pub enum Specification {
     FOHC,
     BoxedHeart,
+}
+
+impl Specification {
+    pub fn to_str(&self) -> &str {
+        match self {
+            Specification::FOHC => "FOHC",
+            Specification::BoxedHeart => "BoxedHeart",
+        }
+    }
 }
 
 impl Default for Props {
