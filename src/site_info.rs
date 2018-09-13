@@ -1,5 +1,10 @@
 // TODO - proper types for address, numbers, etc
 
+// result?
+pub trait SalesTaxReader {
+    fn sales_tax(&self, site_name: &str) -> f64;
+}
+
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct SiteInfo {
     site_name: String,

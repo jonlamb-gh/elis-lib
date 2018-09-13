@@ -1,4 +1,7 @@
-use super::{lumber::Lumber, Customer, Invoice, OrderNumber};
+// TODO - move the reader trait declarations into this scope?
+// name them *provider?
+
+use super::{lumber::Lumber, CustomerInfo, Invoice, OrderNumber, SiteInfo};
 
 use rustbreak::deser::Bincode;
 use rustbreak::FileDatabase;
@@ -10,15 +13,16 @@ pub type Database = FileDatabase<DatabaseData, Bincode>;
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct DatabaseData {
+    pub site_info: SiteInfo,
     pub lumber_types: HashMap<String, Lumber>,
-    pub customers: HashMap<String, Customer>,
+    pub customers: HashMap<String, CustomerInfo>,
     pub invoices: HashMap<OrderNumber, Invoice>,
 }
 
 impl DatabaseData {
     pub fn new() -> Self {
         DatabaseData {
-            // TODO - sites?, has tax info
+            site_info: SiteInfo::new(),
             invoices: HashMap::new(),
             customers: HashMap::new(),
             lumber_types: HashMap::new(),

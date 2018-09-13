@@ -1,4 +1,4 @@
-use super::{InvoiceSummary, OrderInfo, OrderNumber};
+use super::{InvoiceSummary, OrderInfo, OrderNumber, SalesTaxReader};
 use billable_item::BillableItem;
 use lumber::FobCostReader;
 use money_serde::MoneyDef;
@@ -27,7 +27,10 @@ impl Invoice {
         &self.order_info
     }
 
-    pub fn summary<T: FobCostReader>(&self, fob_reader: &T) -> InvoiceSummary {
+    pub fn summary<T>(&self, fob_reader: &T) -> InvoiceSummary
+    where
+        T: FobCostReader + SalesTaxReader,
+    {
         InvoiceSummary::new(
             self.total_pieces(),
             self.estimated_shipping_cost,
@@ -79,12 +82,20 @@ impl Invoice {
         sum
     }
 
-    // TODO - sales tax provider, hard-coded to 8.8%
-    pub fn sales_tax_cost<T: FobCostReader>(&self, fob_reader: &T) -> Money {
-        self.sub_total_cost(fob_reader) * 0.088
+    // TODO - result check traits?
+    pub fn sales_tax_cost<T>(&self, fob_reader: &T) -> Money
+    where
+        T: FobCostReader + SalesTaxReader,
+    {
+        let sales_tax: f64 = fob_reader.sales_tax(self.order_info.site_name());
+
+        self.sub_total_cost(fob_reader) * sales_tax
     }
 
-    pub fn total_cost<T: FobCostReader>(&self, fob_reader: &T) -> Money {
+    pub fn total_cost<T>(&self, fob_reader: &T) -> Money
+    where
+        T: FobCostReader + SalesTaxReader,
+    {
         self.sub_total_cost(fob_reader) + self.sales_tax_cost(fob_reader)
     }
 }
