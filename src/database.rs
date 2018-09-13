@@ -34,7 +34,7 @@ pub struct DatabaseData {
 impl DatabaseData {
     pub fn new() -> Self {
         DatabaseData {
-            site_info: SiteInfo::new(),
+            site_info: SiteInfo::default(),
             invoices: HashMap::new(),
             customers: HashMap::new(),
             lumber_types: HashMap::new(),

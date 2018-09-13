@@ -10,13 +10,19 @@ pub struct SiteInfo {
 }
 
 impl SiteInfo {
-    pub fn new() -> Self {
-        SiteInfo {
-            site_name: String::from("SITE NAME"),
-            address: String::from("ADDRESS"),
-            phone_number: String::from("PHONE NUMBER"),
-            fax_number: String::from("FAX NUMBER"),
-            sales_tax: 0.0,
+    pub fn new(
+        site_name: String,
+        address: String,
+        phone_number: String,
+        fax_number: String,
+        sales_tax: f64,
+    ) -> Self {
+        Self {
+            site_name,
+            address,
+            phone_number,
+            fax_number,
+            sales_tax,
         }
     }
 
@@ -38,5 +44,17 @@ impl SiteInfo {
 
     pub fn sales_tax(&self) -> f64 {
         self.sales_tax
+    }
+}
+
+impl Default for SiteInfo {
+    fn default() -> SiteInfo {
+        SiteInfo {
+            site_name: String::from("SITE NAME"),
+            address: String::from("ADDRESS"),
+            phone_number: String::from("PHONE NUMBER"),
+            fax_number: String::from("FAX NUMBER"),
+            sales_tax: 0.0,
+        }
     }
 }
