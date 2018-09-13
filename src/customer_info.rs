@@ -9,12 +9,12 @@ pub struct CustomerInfo {
 }
 
 impl CustomerInfo {
-    pub fn new() -> Self {
+    pub fn new(name: String, address: String, phone_number: String, notes: String) -> Self {
         Self {
-            name: String::from("NAME"),
-            address: String::new(),
-            phone_number: String::from("PHONE NUMBER"),
-            notes: String::new(),
+            name,
+            address,
+            phone_number,
+            notes,
         }
     }
 
@@ -32,5 +32,16 @@ impl CustomerInfo {
 
     pub fn notes(&self) -> &str {
         &self.notes
+    }
+}
+
+impl Default for CustomerInfo {
+    fn default() -> CustomerInfo {
+        CustomerInfo {
+            name: String::from("NAME"),
+            address: String::new(),
+            phone_number: String::from("PHONE NUMBER"),
+            notes: String::new(),
+        }
     }
 }
