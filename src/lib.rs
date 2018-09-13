@@ -26,13 +26,16 @@ mod money_serde;
 mod order_info;
 mod site_info;
 
+// TODO - use this or just export the modules?
 pub use self::billable_item::BillableItem;
 pub use self::board_dimensions::BoardDimensions;
 pub use self::customer_info::CustomerInfo;
-pub use self::database::{database_from_path, Database, DatabaseData};
+pub use self::database::{
+    database_from_path, Database, DatabaseData, LumberFobCostProvider, SiteSalesTaxProvider,
+};
 pub use self::invoice::Invoice;
 pub use self::invoice_summary::InvoiceSummary;
 pub use self::order_info::OrderInfo;
-pub use self::site_info::{SalesTaxReader, SiteInfo};
+pub use self::site_info::SiteInfo;
 
 pub type OrderNumber = u32;

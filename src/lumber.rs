@@ -5,10 +5,6 @@ use money_serde::MoneyDef;
 
 use steel_cent::Money;
 
-pub trait FobCostReader {
-    fn fob_cost(&self, lumber_type: &LumberType) -> Money;
-}
-
 pub type LumberType = String;
 
 #[derive(Debug, Serialize, Deserialize, Clone)]

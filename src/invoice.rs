@@ -1,7 +1,9 @@
-use super::{InvoiceSummary, OrderInfo, OrderNumber, SalesTaxReader};
+use super::OrderNumber;
 use billable_item::BillableItem;
-use lumber::FobCostReader;
+use database::{LumberFobCostProvider, SiteSalesTaxProvider};
+use invoice_summary::InvoiceSummary;
 use money_serde::MoneyDef;
+use order_info::OrderInfo;
 
 use steel_cent::currency::USD;
 use steel_cent::Money;
@@ -27,16 +29,16 @@ impl Invoice {
         &self.order_info
     }
 
-    pub fn summary<T>(&self, fob_reader: &T) -> InvoiceSummary
+    pub fn summary<T>(&self, provider: &T) -> InvoiceSummary
     where
-        T: FobCostReader + SalesTaxReader,
+        T: LumberFobCostProvider + SiteSalesTaxProvider,
     {
         InvoiceSummary::new(
             self.total_pieces(),
             self.estimated_shipping_cost,
-            self.sub_total_cost(fob_reader),
-            self.sales_tax_cost(fob_reader),
-            self.total_cost(fob_reader),
+            self.sub_total_cost(provider),
+            self.sales_tax_cost(provider),
+            self.total_cost(provider),
         )
     }
 
@@ -70,11 +72,11 @@ impl Invoice {
         sum
     }
 
-    pub fn sub_total_cost<T: FobCostReader>(&self, fob_reader: &T) -> Money {
+    pub fn sub_total_cost<T: LumberFobCostProvider>(&self, provider: &T) -> Money {
         let mut sum = Money::zero(USD);
 
         for i in &self.items {
-            sum = sum + i.cost(fob_reader);
+            sum = sum + i.cost(provider);
         }
 
         sum = sum + self.estimated_shipping_cost;
@@ -83,19 +85,19 @@ impl Invoice {
     }
 
     // TODO - result check traits?
-    pub fn sales_tax_cost<T>(&self, fob_reader: &T) -> Money
+    pub fn sales_tax_cost<T>(&self, provider: &T) -> Money
     where
-        T: FobCostReader + SalesTaxReader,
+        T: LumberFobCostProvider + SiteSalesTaxProvider,
     {
-        let sales_tax: f64 = fob_reader.sales_tax(self.order_info.site_name());
+        let sales_tax: f64 = provider.sales_tax(self.order_info.site_name());
 
-        self.sub_total_cost(fob_reader) * sales_tax
+        self.sub_total_cost(provider) * sales_tax
     }
 
-    pub fn total_cost<T>(&self, fob_reader: &T) -> Money
+    pub fn total_cost<T>(&self, provider: &T) -> Money
     where
-        T: FobCostReader + SalesTaxReader,
+        T: LumberFobCostProvider + SiteSalesTaxProvider,
     {
-        self.sub_total_cost(fob_reader) + self.sales_tax_cost(fob_reader)
+        self.sub_total_cost(provider) + self.sales_tax_cost(provider)
     }
 }

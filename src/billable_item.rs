@@ -1,5 +1,6 @@
 use board_dimensions::BoardDimensions;
-use lumber::{FobCostReader, LumberType, Props};
+use database::LumberFobCostProvider;
+use lumber::{LumberType, Props};
 
 use steel_cent::Money;
 
@@ -43,8 +44,11 @@ impl BillableItem {
         self.quantity
     }
 
-    pub fn cost<T: FobCostReader>(&self, fob_reader: &T) -> Money {
-        let fob_cost = fob_reader.fob_cost(&self.lumber_type);
+    pub fn cost<T>(&self, provider: &T) -> Money
+    where
+        T: LumberFobCostProvider,
+    {
+        let fob_cost = provider.fob_cost(&self.lumber_type);
 
         (fob_cost * self.board_dimensions.board_feet()) * (self.quantity as f64)
     }

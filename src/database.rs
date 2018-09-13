@@ -1,13 +1,25 @@
-// TODO - move the reader trait declarations into this scope?
-// name them *provider?
-
-use super::{lumber::Lumber, CustomerInfo, Invoice, OrderNumber, SiteInfo};
+use super::OrderNumber;
+use customer_info::CustomerInfo;
+use invoice::Invoice;
+use lumber::{Lumber, LumberType};
+use site_info::SiteInfo;
 
 use rustbreak::deser::Bincode;
 use rustbreak::FileDatabase;
 use rustbreak::RustbreakError;
 use std::collections::HashMap;
 use std::path;
+use steel_cent::Money;
+
+// result?
+pub trait SiteSalesTaxProvider {
+    fn sales_tax(&self, site_name: &str) -> f64;
+}
+
+// result?
+pub trait LumberFobCostProvider {
+    fn fob_cost(&self, lumber_type: &LumberType) -> Money;
+}
 
 pub type Database = FileDatabase<DatabaseData, Bincode>;
 
