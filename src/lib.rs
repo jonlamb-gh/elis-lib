@@ -10,6 +10,8 @@ extern crate dimensioned as dim;
 extern crate rustbreak;
 #[macro_use]
 extern crate serde_derive;
+#[macro_use]
+extern crate nom;
 extern crate serde;
 pub extern crate steel_cent;
 

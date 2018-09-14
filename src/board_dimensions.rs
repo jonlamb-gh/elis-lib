@@ -3,7 +3,10 @@
 // constraints like len > 0?
 
 use dim::{ucum, Dimensionless};
+use nom::types::CompleteStr;
+use nom::{digit, float_s, IResult};
 use std::fmt::{self, Display, Formatter};
+use std::str;
 use std::str::FromStr;
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
@@ -52,12 +55,45 @@ impl Display for BoardDimensions {
     }
 }
 
-// TODO - is there a more idiomatic way to go about this?
-// T <in|ft> X W <in|ft> X L <in|ft>
+#[derive(Debug)]
+struct IR {
+    pub t: f64,
+    pub w: f64,
+    pub l: f64,
+}
+
+fn parse_double(input: CompleteStr) -> ::nom::IResult<CompleteStr, f64> {
+    flat_map!(input, call!(::nom::recognize_float), parse_to!(f64))
+}
+
+named!(parse_dimensions<CompleteStr, IR>,
+    do_parse!(
+        m_t: parse_double >>
+        tag!(" in X ") >>
+        m_w: parse_double >>
+        tag!(" in X ") >>
+        m_l: parse_double >>
+        tag!(" ft") >>
+        (IR { t: m_t, w: m_w, l: m_l })
+    )
+);
+
+// T in X W in X L ft
 impl FromStr for BoardDimensions {
     type Err = ();
 
     fn from_str(_s: &str) -> Result<BoardDimensions, ()> {
         Err(())
     }
+}
+
+#[test]
+fn board_dimensions_from_str_test() {
+    let res = parse_double(CompleteStr("123.234"));
+
+    println!("{:#?}", res);
+
+    let res = parse_dimensions(CompleteStr("12.3 in X 5.8 in X 88.12 ft"));
+
+    println!("{:#?}", res);
 }
