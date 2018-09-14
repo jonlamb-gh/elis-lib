@@ -18,7 +18,7 @@ impl BillableItem {
         Self {
             lumber_type,
             lumber_props: Props::default(),
-            description: String::from("PIECE DESCRIPTION"),
+            description: String::new(),
             board_dimensions: BoardDimensions::new(),
             quantity: 1,
         }
