@@ -36,12 +36,21 @@ impl BillableItem {
         &self.description
     }
 
+    pub fn set_description(&mut self, description: &str) {
+        self.description = String::from(description);
+    }
+
     pub fn board_dimensions(&self) -> &BoardDimensions {
         &self.board_dimensions
     }
 
     pub fn quantity(&self) -> usize {
         self.quantity
+    }
+
+    // TODO - allow 0?
+    pub fn set_quantity(&mut self, quantity: usize) {
+        self.quantity = quantity;
     }
 
     pub fn cost<T>(&self, provider: &T) -> Money
