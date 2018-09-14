@@ -35,6 +35,10 @@ impl DryingMethod {
             DryingMethod::AirDried => "AirDried",
         }
     }
+
+    pub fn enumerate() -> &'static [DryingMethod] {
+        &[DryingMethod::KilnDried, DryingMethod::AirDried]
+    }
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
@@ -52,6 +56,10 @@ impl Grade {
             Grade::III => "III",
         }
     }
+
+    pub fn enumerate() -> &'static [Grade] {
+        &[Grade::I, Grade::II, Grade::III]
+    }
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
@@ -66,6 +74,10 @@ impl Specification {
             Specification::FOHC => "FOHC",
             Specification::BoxedHeart => "BoxedHeart",
         }
+    }
+
+    pub fn enumerate() -> &'static [Specification] {
+        &[Specification::FOHC, Specification::BoxedHeart]
     }
 }
 
