@@ -4,6 +4,7 @@
 
 use dim::{ucum, Dimensionless};
 use std::fmt::{self, Display, Formatter};
+use std::str::FromStr;
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct BoardDimensions {
@@ -43,5 +44,15 @@ impl Display for BoardDimensions {
             self.width / ucum::IN_I,
             self.length / ucum::FT_I
         )
+    }
+}
+
+// TODO - is there a more idiomatic way to go about this?
+// T <in|ft> X W <in|ft> X L <in|ft>
+impl FromStr for BoardDimensions {
+    type Err = ();
+
+    fn from_str(_s: &str) -> Result<BoardDimensions, ()> {
+        Err(())
     }
 }
