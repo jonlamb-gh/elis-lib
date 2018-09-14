@@ -3,6 +3,7 @@
 
 use money_serde::MoneyDef;
 
+use std::str::FromStr;
 use steel_cent::Money;
 
 pub type LumberType = String;
@@ -41,6 +42,19 @@ impl DryingMethod {
     }
 }
 
+// TODO - how to use a single source for string?
+impl FromStr for DryingMethod {
+    type Err = ();
+
+    fn from_str(s: &str) -> Result<DryingMethod, ()> {
+        match s {
+            "KilnDried" => Ok(DryingMethod::KilnDried),
+            "AirDried" => Ok(DryingMethod::AirDried),
+            _ => Err(()),
+        }
+    }
+}
+
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
 pub enum Grade {
     I,
@@ -62,6 +76,19 @@ impl Grade {
     }
 }
 
+impl FromStr for Grade {
+    type Err = ();
+
+    fn from_str(s: &str) -> Result<Grade, ()> {
+        match s {
+            "I" => Ok(Grade::I),
+            "II" => Ok(Grade::II),
+            "III" => Ok(Grade::III),
+            _ => Err(()),
+        }
+    }
+}
+
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
 pub enum Specification {
     FOHC,
@@ -78,6 +105,18 @@ impl Specification {
 
     pub fn enumerate() -> &'static [Specification] {
         &[Specification::FOHC, Specification::BoxedHeart]
+    }
+}
+
+impl FromStr for Specification {
+    type Err = ();
+
+    fn from_str(s: &str) -> Result<Specification, ()> {
+        match s {
+            "FOHC" => Ok(Specification::FOHC),
+            "BoxedHeart" => Ok(Specification::BoxedHeart),
+            _ => Err(()),
+        }
     }
 }
 
