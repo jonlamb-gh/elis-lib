@@ -15,12 +15,7 @@ pub struct BoardDimensions {
 
 impl BoardDimensions {
     pub fn new() -> Self {
-        Self {
-            // should be 40 board feet
-            length: 1.0 * ucum::FT_I,
-            width: 4.0 * ucum::IN_I,
-            thickness: 4.0 * ucum::IN_I,
-        }
+        Self::default()
     }
 
     pub fn volume(&self) -> ucum::Meter3<f64> {
@@ -31,6 +26,16 @@ impl BoardDimensions {
     //pub fn board_feet(&self) -> BoardFoot<f64> ?
     pub fn board_feet(&self) -> f64 {
         *(self.volume() / ucum::BF_I).value()
+    }
+}
+
+impl Default for BoardDimensions {
+    fn default() -> BoardDimensions {
+        BoardDimensions {
+            length: 1.0 * ucum::FT_I,
+            width: 4.0 * ucum::IN_I,
+            thickness: 4.0 * ucum::IN_I,
+        }
     }
 }
 

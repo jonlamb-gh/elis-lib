@@ -48,6 +48,10 @@ impl BillableItem {
         &self.board_dimensions
     }
 
+    pub fn set_board_dimensions(&mut self, board_dimensions: BoardDimensions) {
+        self.board_dimensions = board_dimensions;
+    }
+
     pub fn quantity(&self) -> usize {
         self.quantity
     }
