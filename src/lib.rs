@@ -2,7 +2,8 @@
 // new/default usage
 // https://doc.rust-lang.org/1.0.0/style/style/naming/README.html#avoid-redundant-prefixes-[rfc-356]
 // https://doc.rust-lang.org/1.0.0/style/style/naming/README.html#getter/setter-methods-[rfc-344]
-// use of super::type vs module::type for local modules
+// use of super::type vs module::type for local modules?
+// setters instead of mutable getters?
 
 extern crate chrono;
 extern crate dimensioned as dim;

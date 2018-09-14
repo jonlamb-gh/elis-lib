@@ -32,6 +32,10 @@ impl BillableItem {
         &self.lumber_props
     }
 
+    pub fn set_lumber_props(&mut self, props: Props) {
+        self.lumber_props = props;
+    }
+
     pub fn description(&self) -> &str {
         &self.description
     }
