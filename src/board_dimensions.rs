@@ -47,7 +47,7 @@ impl Display for BoardDimensions {
     fn fmt(&self, fmt: &mut Formatter) -> Result<(), fmt::Error> {
         write!(
             fmt,
-            "{} in X {} in X {} ft",
+            "{:.3} in X {:.3} in X {:.3} ft",
             self.thickness / ucum::IN_I,
             self.width / ucum::IN_I,
             self.length / ucum::FT_I
