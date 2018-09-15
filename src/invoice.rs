@@ -29,6 +29,10 @@ impl Invoice {
         &self.order_info
     }
 
+    pub fn set_order_info(&mut self, order_info: OrderInfo) {
+        self.order_info = order_info;
+    }
+
     pub fn summary<T>(&self, provider: &T) -> InvoiceSummary
     where
         T: LumberFobCostProvider + SiteSalesTaxProvider,

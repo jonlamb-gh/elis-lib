@@ -33,6 +33,10 @@ impl OrderInfo {
         &self.customer_name
     }
 
+    pub fn set_customer_name(&mut self, customer_name: String) {
+        self.customer_name = customer_name;
+    }
+
     pub fn confirms_with(&self) -> &str {
         &self.confirms_with
     }
