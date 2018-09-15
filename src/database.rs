@@ -40,6 +40,17 @@ impl DatabaseData {
             lumber_types: HashMap::new(),
         }
     }
+
+    pub fn next_free_order_number(&self) -> OrderNumber {
+        let mut next_num: OrderNumber = 0;
+        for order_num in self.invoices.keys() {
+            if *order_num > next_num {
+                next_num = *order_num;
+            }
+        }
+
+        next_num + 1
+    }
 }
 
 pub fn database_from_path<S>(path: S) -> Result<Database, RustbreakError>
