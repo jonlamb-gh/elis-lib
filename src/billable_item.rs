@@ -28,6 +28,10 @@ impl BillableItem {
         &self.lumber_type
     }
 
+    pub fn set_lumber_type(&mut self, lumber_type: LumberType) {
+        self.lumber_type = lumber_type;
+    }
+
     pub fn lumber_props(&self) -> &Props {
         &self.lumber_props
     }
