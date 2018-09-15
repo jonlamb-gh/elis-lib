@@ -4,12 +4,12 @@
 
 use dim::{ucum, Dimensionless};
 use nom::types::CompleteStr;
-use nom::{digit, float_s, IResult};
+use nom::{space, IResult};
 use std::fmt::{self, Display, Formatter};
 use std::str;
 use std::str::FromStr;
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
 pub struct BoardDimensions {
     length: ucum::Meter<f64>,
     width: ucum::Meter<f64>,
@@ -55,7 +55,7 @@ impl Display for BoardDimensions {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 struct IR {
     pub t: f64,
     pub w: f64,
@@ -69,31 +69,80 @@ fn parse_double(input: CompleteStr) -> ::nom::IResult<CompleteStr, f64> {
 named!(parse_dimensions<CompleteStr, IR>,
     do_parse!(
         m_t: parse_double >>
-        tag!(" in X ") >>
+        space >>
+        opt!(tag!("in ")) >>
+        alt!(tag!("X") | tag!("x")) >>
+        space >>
         m_w: parse_double >>
-        tag!(" in X ") >>
+        space >>
+        opt!(tag!("in ")) >>
+        alt!(tag!("X") | tag!("x")) >>
+        space >>
         m_l: parse_double >>
-        tag!(" ft") >>
+        space >>
+        opt!(tag!("ft")) >>
         (IR { t: m_t, w: m_w, l: m_l })
     )
 );
 
 // T in X W in X L ft
+// TODO - needs error handling
 impl FromStr for BoardDimensions {
     type Err = ();
 
-    fn from_str(_s: &str) -> Result<BoardDimensions, ()> {
-        Err(())
+    fn from_str(s: &str) -> Result<BoardDimensions, ()> {
+        let res: IResult<CompleteStr, IR> = parse_dimensions(CompleteStr(s));
+
+        if let Ok((_, ir)) = res {
+            let length = if ir.l.abs() <= 0.0 { 0.1 } else { ir.l.abs() };
+            let width = if ir.w.abs() <= 0.0 { 0.1 } else { ir.w.abs() };
+            let thickness = if ir.t.abs() <= 0.0 { 0.1 } else { ir.t.abs() };
+
+            Ok(BoardDimensions {
+                length: length * ucum::FT_I,
+                width: width * ucum::IN_I,
+                thickness: thickness * ucum::IN_I,
+            })
+        } else {
+            Err(())
+        }
     }
+}
+
+// TODO - just some examples to get by with, needs filled out
+#[test]
+fn parse_double_test() {
+    assert_eq!(
+        parse_double(CompleteStr("123.234")),
+        Ok((CompleteStr(""), 123.234_f64))
+    );
+}
+
+#[test]
+fn parse_dimensions_test() {
+    assert_eq!(
+        parse_dimensions(CompleteStr("12.3 in X 5.8 in X 88.12 ft")),
+        Ok((
+            CompleteStr(""),
+            IR {
+                t: 12.3,
+                w: 5.8,
+                l: 88.12,
+            }
+        ))
+    );
 }
 
 #[test]
 fn board_dimensions_from_str_test() {
-    let res = parse_double(CompleteStr("123.234"));
+    let bd = BoardDimensions::from_str("1.8 in X 66.3 in X 384.22346 ft").unwrap();
 
-    println!("{:#?}", res);
-
-    let res = parse_dimensions(CompleteStr("12.3 in X 5.8 in X 88.12 ft"));
-
-    println!("{:#?}", res);
+    assert_eq!(
+        bd,
+        BoardDimensions {
+            length: 384.22346 * ucum::FT_I,
+            width: 66.3 * ucum::IN_I,
+            thickness: 1.8 * ucum::IN_I,
+        }
+    );
 }
