@@ -1,4 +1,3 @@
-use super::OrderNumber;
 use billable_item::BillableItem;
 use database::{LumberFobCostProvider, SiteSalesTaxProvider};
 use invoice_summary::InvoiceSummary;
@@ -17,9 +16,9 @@ pub struct Invoice {
 }
 
 impl Invoice {
-    pub fn new(order_number: OrderNumber) -> Self {
+    pub fn new(order_info: OrderInfo) -> Self {
         Self {
-            order_info: OrderInfo::new(order_number),
+            order_info,
             items: Vec::<BillableItem>::new(),
             estimated_shipping_cost: Money::zero(USD),
         }

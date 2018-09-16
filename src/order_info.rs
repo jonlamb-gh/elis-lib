@@ -69,3 +69,18 @@ impl OrderInfo {
         self.will_call
     }
 }
+
+impl Default for OrderInfo {
+    fn default() -> OrderInfo {
+        OrderInfo {
+            customer_name: String::from("SELECT CUSTOMER"),
+            confirms_with: String::new(),
+            order_date: Utc::now(),
+            shipment_date: Utc::now(),
+            order_number: 0,
+            weight_estimate: ucum::Gram::new(0.0),
+            site_name: String::from("SELECT SITE"),
+            will_call: false,
+        }
+    }
+}
