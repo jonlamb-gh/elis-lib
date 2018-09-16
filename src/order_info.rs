@@ -61,6 +61,10 @@ impl OrderInfo {
         &self.site_name
     }
 
+    pub fn set_site_name(&mut self, site_name: String) {
+        self.site_name = site_name;
+    }
+
     pub fn will_call(&self) -> bool {
         self.will_call
     }
