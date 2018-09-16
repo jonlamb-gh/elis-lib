@@ -25,6 +25,7 @@ pub type Database = FileDatabase<DatabaseData, Bincode>;
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct DatabaseData {
+    // TODO - version info
     pub site_info: SiteInfo,
     pub lumber_types: HashMap<String, Lumber>,
     pub customers: HashMap<String, CustomerInfo>,

@@ -41,6 +41,10 @@ impl OrderInfo {
         &self.confirms_with
     }
 
+    pub fn set_confirms_with(&mut self, confirms_with: String) {
+        self.confirms_with = confirms_with;
+    }
+
     pub fn order_date(&self) -> &DateTime<Utc> {
         &self.order_date
     }
