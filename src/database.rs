@@ -23,9 +23,17 @@ pub trait LumberFobCostProvider {
 
 pub type Database = FileDatabase<DatabaseData, Bincode>;
 
+// TODO - use semver?
+#[derive(Debug, Serialize, Deserialize, Clone)]
+pub struct VersionData {
+    pub major: u64,
+    pub minor: u64,
+    pub patch: u64,
+}
+
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct DatabaseData {
-    // TODO - version info
+    pub version: VersionData,
     pub site_info: SiteInfo,
     pub lumber_types: HashMap<String, Lumber>,
     pub customers: HashMap<String, CustomerInfo>,
@@ -35,6 +43,12 @@ pub struct DatabaseData {
 impl DatabaseData {
     pub fn new() -> Self {
         DatabaseData {
+            // TODO - hard-coded for now
+            version: VersionData {
+                major: 0,
+                minor: 1,
+                patch: 0,
+            },
             site_info: SiteInfo::default(),
             invoices: HashMap::new(),
             customers: HashMap::new(),
