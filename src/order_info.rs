@@ -76,6 +76,10 @@ impl OrderInfo {
     pub fn will_call(&self) -> bool {
         self.will_call
     }
+
+    pub fn set_will_call(&mut self, will_call: bool) {
+        self.will_call = will_call;
+    }
 }
 
 impl Default for OrderInfo {
