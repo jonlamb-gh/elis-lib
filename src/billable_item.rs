@@ -1,12 +1,12 @@
 use board_dimensions::BoardDimensions;
 use database::LumberFobCostProvider;
-use lumber::{LumberType, Props};
+use lumber::Props;
 
 use steel_cent::Money;
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct BillableItem {
-    lumber_type: LumberType,
+    lumber_type: String,
     lumber_props: Props,
     description: String,
     board_dimensions: BoardDimensions,
@@ -14,7 +14,7 @@ pub struct BillableItem {
 }
 
 impl BillableItem {
-    pub fn new(lumber_type: LumberType) -> Self {
+    pub fn new(lumber_type: String) -> Self {
         Self {
             lumber_type,
             lumber_props: Props::default(),
@@ -24,11 +24,11 @@ impl BillableItem {
         }
     }
 
-    pub fn lumber_type(&self) -> &LumberType {
+    pub fn lumber_type(&self) -> &str {
         &self.lumber_type
     }
 
-    pub fn set_lumber_type(&mut self, lumber_type: LumberType) {
+    pub fn set_lumber_type(&mut self, lumber_type: String) {
         self.lumber_type = lumber_type;
     }
 

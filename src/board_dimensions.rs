@@ -71,12 +71,12 @@ named!(parse_dimensions<CompleteStr, IR>,
         m_t: parse_double >>
         space >>
         opt!(tag!("in ")) >>
-        alt!(tag!("X") | tag!("x")) >>
+        alt!(tag!("X") | tag!("x") | tag!("*")) >>
         space >>
         m_w: parse_double >>
         space >>
         opt!(tag!("in ")) >>
-        alt!(tag!("X") | tag!("x")) >>
+        alt!(tag!("X") | tag!("x") | tag!("*")) >>
         space >>
         m_l: parse_double >>
         space >>

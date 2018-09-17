@@ -6,8 +6,6 @@ use money_serde::MoneyDef;
 use std::str::FromStr;
 use steel_cent::Money;
 
-pub type LumberType = String;
-
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Lumber {
     type_name: String,

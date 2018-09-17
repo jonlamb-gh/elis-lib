@@ -1,7 +1,7 @@
 use super::OrderNumber;
 use customer_info::CustomerInfo;
 use invoice::Invoice;
-use lumber::{Lumber, LumberType};
+use lumber::Lumber;
 use site_info::SiteInfo;
 
 use rustbreak::deser::Bincode;
@@ -18,7 +18,7 @@ pub trait SiteSalesTaxProvider {
 
 // result?
 pub trait LumberFobCostProvider {
-    fn fob_cost(&self, lumber_type: &LumberType) -> Money;
+    fn fob_cost(&self, lumber_type: &str) -> Money;
 }
 
 pub type Database = FileDatabase<DatabaseData, Bincode>;
