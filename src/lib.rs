@@ -5,7 +5,7 @@
 // use of super::type vs module::type for local modules?
 // setters instead of mutable getters?
 
-extern crate chrono;
+pub extern crate chrono;
 extern crate dimensioned as dim;
 extern crate rustbreak;
 #[macro_use]
