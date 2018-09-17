@@ -1,6 +1,6 @@
 [package]
 name = "elis-lib"
-version = "0.0.1"
+version = "0.1.0"
 authors = ["jonlamb-gh <lamb.jon.io@gmail.com>"]
 
 [dependencies]
