@@ -69,17 +69,17 @@ fn parse_double(input: CompleteStr) -> ::nom::IResult<CompleteStr, f64> {
 named!(parse_dimensions<CompleteStr, IR>,
     do_parse!(
         m_t: parse_double >>
-        space >>
+        opt!(space) >>
         opt!(tag!("in ")) >>
         alt!(tag!("X") | tag!("x") | tag!("*")) >>
-        space >>
+        opt!(space) >>
         m_w: parse_double >>
-        space >>
+        opt!(space) >>
         opt!(tag!("in ")) >>
         alt!(tag!("X") | tag!("x") | tag!("*")) >>
-        space >>
+        opt!(space) >>
         m_l: parse_double >>
-        space >>
+        opt!(space) >>
         opt!(tag!("ft")) >>
         (IR { t: m_t, w: m_w, l: m_l })
     )
@@ -116,6 +116,11 @@ fn parse_double_test() {
         parse_double(CompleteStr("123.234")),
         Ok((CompleteStr(""), 123.234_f64))
     );
+
+    assert_eq!(
+        parse_double(CompleteStr("-282345.9123")),
+        Ok((CompleteStr(""), -282345.9123_f64))
+    );
 }
 
 #[test]
@@ -135,14 +140,53 @@ fn parse_dimensions_test() {
 
 #[test]
 fn board_dimensions_from_str_test() {
-    let bd = BoardDimensions::from_str("1.8 in X 66.3 in X 384.22346 ft").unwrap();
-
     assert_eq!(
-        bd,
+        BoardDimensions::from_str("1.8 in X 66.3 in X 384.22346 ft").unwrap(),
         BoardDimensions {
             length: 384.22346 * ucum::FT_I,
             width: 66.3 * ucum::IN_I,
             thickness: 1.8 * ucum::IN_I,
         }
+    );
+
+     assert_eq!(
+        BoardDimensions::from_str("8*22*99.0000").unwrap(),
+        BoardDimensions {
+            length: 99.0 * ucum::FT_I,
+            width: 22.0 * ucum::IN_I,
+            thickness: 8.0 * ucum::IN_I,
+        }
+    );
+
+    assert_eq!(
+        BoardDimensions::from_str("-9.0 * 12.1 in X 4").unwrap(),
+        BoardDimensions {
+            length: 4.0 * ucum::FT_I,
+            width: 12.1 * ucum::IN_I,
+            thickness: 9.0 * ucum::IN_I,
+        }
+    );
+}
+
+#[test]
+fn faulty_str_values() {
+    assert_eq!(
+        BoardDimensions::from_str("asdf"),
+        Err(())
+    );
+
+    assert_eq!(
+        BoardDimensions::from_str(""),
+        Err(())
+    );
+
+    assert_eq!(
+        BoardDimensions::from_str("2 ft X 2 ft X 2 ft"),
+        Err(())
+    );
+
+    assert_eq!(
+        BoardDimensions::from_str(" * * * "),
+        Err(())
     );
 }
