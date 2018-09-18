@@ -11,6 +11,8 @@ use std::collections::HashMap;
 use std::path;
 use steel_cent::Money;
 
+const PREAMBLE: u64 = 0xFA_EB_DC_CD;
+
 // result?
 pub trait SiteSalesTaxProvider {
     fn sales_tax(&self, site_name: &str) -> f64;
@@ -26,9 +28,9 @@ pub type Database = FileDatabase<DatabaseData, Bincode>;
 // TODO - use semver?
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct VersionData {
+    pub preamble: u64,
     pub major: u64,
     pub minor: u64,
-    pub patch: u64,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
@@ -43,11 +45,10 @@ pub struct DatabaseData {
 impl DatabaseData {
     pub fn new() -> Self {
         DatabaseData {
-            // TODO - hard-coded for now
             version: VersionData {
-                major: 0,
-                minor: 1,
-                patch: 0,
+                preamble: PREAMBLE,
+                major: env!("CARGO_PKG_VERSION_MAJOR").parse::<u64>().unwrap(),
+                minor: env!("CARGO_PKG_VERSION_MINOR").parse::<u64>().unwrap(),
             },
             site_info: SiteInfo::default(),
             invoices: HashMap::new(),
